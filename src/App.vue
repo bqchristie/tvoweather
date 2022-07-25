@@ -6,8 +6,8 @@
     </h1>
     <form>
       <fieldset>
-        <label for="">Select a city</label>
-        <input type="text" placeholder="Enter city...." @keyup="refreshCities" v-model="query">
+        <label for="query">Select a city</label>
+        <input id="query" type="text" autocomplete="off" placeholder="Enter city...." @keyup="refreshCities" v-model="query">
       </fieldset>
       <input
           type="button" @click="clearQuery" value="X">
@@ -18,6 +18,7 @@
       </li>
     </ul>
     </header>
+    <transition name="fade">
     <div class="selected-city" v-if="selectedCity">
       <h2>Current Weather for <strong>{{ selectedCity?.name }} {{ selectedCity?.state }} {{
           selectedCity?.country
@@ -26,10 +27,13 @@
       <WeatherSummary :weather="weather"/>
       </div>
     </div>
+    </transition>
+    <transition name="fade">
     <div class="empty" v-if="!selectedCity">
       <span class="material-symbols-outlined">cloud_off</span>
       <h1>Search for a city to begin</h1>
     </div>
+    </transition>
 
 
     <!--    <div>-->
@@ -104,6 +108,8 @@ export default {
 
 body {
   margin: 0 0 0 0 ;
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23848287' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
 }
 
 header {
@@ -228,6 +234,13 @@ h4 {
     margin-bottom: 0.8em;
     width: calc(100vw - 3.2em);
   }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 
 </style>
