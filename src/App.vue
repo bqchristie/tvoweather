@@ -1,33 +1,46 @@
 <template>
   <div id="app">
+    <header>
     <h1>
       TVO Weather
     </h1>
-    <input type="text" placeholder="Enter city...." @keyup="refreshCities" v-model="query"><input
-      type="button" @click="clearQuery" value="Clear">
+    <form>
+      <fieldset>
+        <label for="">Select a city</label>
+        <input type="text" placeholder="Enter city...." @keyup="refreshCities" v-model="query">
+      </fieldset>
+      <input
+          type="button" @click="clearQuery" value="X">
+    </form>
     <ul class="results">
       <li v-for="(city, idx) in cities" :key="'part-' + idx" @click="setCity(city)">{{ city.name }}, {{ city.state }},
         {{ city.country }}
       </li>
     </ul>
-    <div v-if="selectedCity">
-      <h2>Current Weather for {{ selectedCity?.name }} {{ selectedCity?.state }} {{ selectedCity?.country }}</h2>
+    </header>
+    <div class="selected-city" v-if="selectedCity">
+      <h2>Current Weather for <strong>{{ selectedCity?.name }} {{ selectedCity?.state }} {{
+          selectedCity?.country
+        }}</strong></h2>
+      <div>
       <WeatherSummary :weather="weather"/>
+      </div>
+    </div>
+    <div class="empty" v-if="!selectedCity">
+      <span class="material-symbols-outlined">cloud_off</span>
+      <h1>Search for a city to begin</h1>
     </div>
 
-    <div v-if="!selectedCity">
-      <h2>Select a city from the text box above</h2>
-    </div>
 
-<!--    <div>-->
-<!--      <pre><code>{{weather}}</code></pre>-->
-<!--    </div>-->
+    <!--    <div>-->
+    <!--      <pre><code>{{weather}}</code></pre>-->
+    <!--    </div>-->
   </div>
 </template>
 
 <script>
 
-import WeatherSummary from "@/WeatherSummary";
+import WeatherSummary from "@/components/WeatherSummary";
 
 export default {
   name: 'App',
@@ -87,11 +100,134 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
-input {
-  height: 1.8em;
-  font-size: 1.6em;
+body {
+  margin: 0 0 0 0 ;
 }
+
+header {
+  background-color: darkslateblue;
+  color:white;
+  padding-top: 1.6em;
+  padding-bottom: 1.6em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+
+form {
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
+
+label {
+  padding-bottom: 0.5em;
+}
+
+input::placeholder {
+  color: #cecece;
+}
+
+
+input[type=text] {
+  padding-left: 0.4em;
+  width:100%;
+  height: 1.8em;
+  font-size: 1.4em;
+  font-weight: bold;
+  border-radius: 6px;
+  border: none;
+  outline: #c5bef2 solid 3px;
+}
+
+input[type=button] {
+  background-color: transparent; /* Green */
+  border: none;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 1em;
+  margin-top: 1em;
+  margin-left: 20px;
+}
+
+input[type=button]:hover {
+  cursor: pointer;
+  color: #cecece;
+}
+
+ul {
+  margin-top: 1em;
+  list-style: none;
+}
+
+li {
+  padding-bottom: 0.4em;
+}
+
+li:hover {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3em;
+  color: #cecece;
+  font-size: 1.8em;
+  font-weight: bold;
+}
+
+.empty span{
+  font-size: 3em;
+}
+
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 0;
+  text-align: left;
+  display: flex;
+}
+
+h2 {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-size: 1.8em;
+  text-align: center;
+}
+
+h4 {
+  text-align: left;
+  width: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+  .lug {
+    margin-bottom: 0.8em;
+    width: calc(100vw - 3.2em);
+  }
+}
+
 </style>
