@@ -1,13 +1,18 @@
 <template>
 <!--  <div>{{weather?.main?.humidity}}%</div>-->
-  <div class="pie" style="--p:60;--b:10px;--c:#efb41d;">{{weather?.main?.humidity}}%</div>
+  <div class="pie" :style="pieStyle">{{weather?.main?.humidity}}%</div>
 </template>
 <script>
 export default {
   name: 'PieChart',
   props: {
     weather: {}
-  }
+  },
+  computed: {
+    pieStyle() {
+      return `--p:${this.weather?.main?.humidity};--b:10px;--c:#efb41d;`
+    }
+  },
 }
 </script>
 <style scoped>
